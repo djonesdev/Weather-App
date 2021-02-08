@@ -1,0 +1,36 @@
+.button {
+    color: white;
+    padding: 12px;
+    border: 0;
+}
+
+
+/* Size  styles */
+.button--small {
+    height: 25px;
+    width: 100px; 
+    padding: 6px;
+    border-radius: 8px; 
+}
+
+.button--medium{
+    height: 50px;
+    width: 200px; 
+    border-radius: 12px; 
+    font-size: 16px;
+}
+
+.button--large {
+    /* styles for large button here */
+}
+
+
+/* button types */
+
+.button--primary {
+    background-color: maroon;
+}
+
+.button--secondary {
+    background-color: forestgreen;
+}

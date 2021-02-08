@@ -1,0 +1,24 @@
+.forcast-weather-carousel {
+    display: flex; 
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+}
+
+.forcast-weather-filters {
+    display: flex;
+    width: 100vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.forcast-weather-dropdown {
+    width: 30%;
+}
+
+.forcast-weather-search {
+    width: 30%;
+    border-radius: 16px;
+    padding: 12px;
+    border: 1px solid lightgray;
+}

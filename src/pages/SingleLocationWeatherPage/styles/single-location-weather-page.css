@@ -1,0 +1,8 @@
+.location-weather-page {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+}
+.location-selector {
+    width: 300px;
+}

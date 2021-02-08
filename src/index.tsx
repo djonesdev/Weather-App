@@ -1,34 +1,38 @@
-import * as React from "react"
-import { render } from "react-dom"
-import { createStore, applyMiddleware, Store, Dispatch } from "redux"
-import { Provider } from "react-redux"
-import { composeWithDevTools } from 'redux-devtools-extension'
-import createSagaMiddleware from 'redux-saga'
+import * as React from "react";
+import { render } from "react-dom";
+import { createStore, applyMiddleware, Store, Dispatch } from "redux";
+import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import createSagaMiddleware from "redux-saga";
+import { BrowserRouter } from "react-router-dom";
 
-import App from "./App"
-import { weatherReducer } from "./redux/weather/reducer"
-import { weatherSagaWatcher } from "./redux/weather/sagas"
-import { WeatherActionTypes, WeatherState } from "./redux/weather/types"
-import { all } from "redux-saga/effects"
+import App from "./App";
+import { weatherReducer } from "./redux/weather/reducer";
+import { weatherSagaWatcher } from "./redux/weather/sagas";
+import { WeatherActionTypes, WeatherState } from "./redux/weather/types";
+import { all } from "redux-saga/effects";
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 
 export default function* rootSaga() {
-  yield all([
-    weatherSagaWatcher(),
-  ])
+  yield all([weatherSagaWatcher()]);
 }
 
 const store: Store<WeatherState, WeatherActionTypes> & {
-  dispatch: Dispatch
-} = createStore(weatherReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)))
+  dispatch: Dispatch;
+} = createStore(
+  weatherReducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
 
-sagaMiddleware.run(rootSaga)
+sagaMiddleware.run(rootSaga);
 
-const rootElement = document.getElementById("root")
+const rootElement = document.getElementById("root");
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </BrowserRouter>,
   rootElement
-)
+);

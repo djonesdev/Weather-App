@@ -2,9 +2,28 @@ export const GET_WEATHER_START = "GET_WEATHER_START";
 export const GET_WEATHER_SUCCESS = "GET_WEATHER_SUCCESS";
 export const GET_WEATHER_ERROR = "GET_WEATHER_ERROR";
 
+export const GET_WEATHER_EXTENDED_START = "GET_WEATHER_EXTENDED_START"
+export const GET_WEATHER_EXTENDED_SUCCESS = "GET_WEATHER_EXTENDED_SUCCESS"
+export const GET_WEATHER_EXTENDED_ERROR = "GET_WEATHER_EXTENDED_ERROR"
+
 export interface GetWeatherAction {
   type: typeof GET_WEATHER_START
   payload: LocationQuery
+}
+
+export interface GetWeatherExtendedAction {
+  type: typeof GET_WEATHER_EXTENDED_START
+  payload: LocationQuery
+}
+
+interface GetWeatherExtendedSuccessAction {
+  type: typeof GET_WEATHER_EXTENDED_SUCCESS
+  payload: LocationWeatherData[]
+}
+
+interface GetWeatherExtendedErrorAction {
+  type: typeof GET_WEATHER_EXTENDED_ERROR
+  payload: string
 }
 
 export interface LocationQuery {
@@ -24,6 +43,7 @@ interface GetWeatherErrorAction {
 
 export interface WeatherState {
   currentLocationWeather: LocationWeatherData[]
+  currentLocationExtendedWeather: LocationWeatherData[]
   error: string
 }
 
@@ -33,12 +53,12 @@ export interface LocationWeatherData {
   lon: number;
   pres: number;
   timezone: string;
-  ob_time: Date;
+  ob_time: string;
   country_code: string;
   clouds: number;
   ts: number;
   solar_rad: number;
-  state_code: number;
+  state_code: string;
   city_name: string;
   wind_spd: number;
   wind_cdir_full: string;
@@ -46,20 +66,20 @@ export interface LocationWeatherData {
   slp: number;
   vis: number;
   h_angle: number;
-  sunset: number;
+  sunset: string;
   dni: number;
   dewpt: number;
   snow: number;
   uv: number;
   precip: number;
   wind_dir: number;
-  sunrise: number;
+  sunrise: string;
   ghi: number;
   dhi: number;
-  aqi: number;
+  aqi: number | null;
   lat: number;
   weather: WeatherData;
-  datetime: Date;
+  datetime: string;
   temp: number;
   station: string;
   elev_angle: number;
@@ -75,6 +95,9 @@ export interface WeatherData {
 
 export type WeatherActionTypes =
   | GetWeatherAction
+  | GetWeatherExtendedAction
+  | GetWeatherExtendedSuccessAction
+  | GetWeatherExtendedErrorAction
   | GetWeatherErrorAction
   | GetWeatherSuccessAction
   | GetWeatherErrorAction

@@ -17,4 +17,8 @@ export const weatherApi = {
     const data = instance.get("/current", { params: { lon: locationData.lon, lat: locationData.lat }});
     return data;
   },
+  getLocationForcastExtended: (locationData: LocationQuery) => {
+    const data = instance.get("/forecast/daily", { params: { lon: locationData.lon, lat: locationData.lat }})
+    return data
+  }
 };
