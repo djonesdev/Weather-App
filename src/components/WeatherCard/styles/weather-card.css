@@ -9,9 +9,10 @@
   box-shadow: 5px 5px 18px 2px rgba(27, 24, 24, 0.33);
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+@media (min-width: 375px) and (max-width: 812px) {
   .weather-card {
     width: 65vw;
+    margin-right: 0px;
   }
 }
 

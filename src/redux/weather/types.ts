@@ -2,49 +2,68 @@ export const GET_WEATHER_START = "GET_WEATHER_START";
 export const GET_WEATHER_SUCCESS = "GET_WEATHER_SUCCESS";
 export const GET_WEATHER_ERROR = "GET_WEATHER_ERROR";
 
-export const GET_WEATHER_EXTENDED_START = "GET_WEATHER_EXTENDED_START"
-export const GET_WEATHER_EXTENDED_SUCCESS = "GET_WEATHER_EXTENDED_SUCCESS"
-export const GET_WEATHER_EXTENDED_ERROR = "GET_WEATHER_EXTENDED_ERROR"
+export const GET_WEATHER_EXTENDED_START = "GET_WEATHER_EXTENDED_START";
+export const GET_WEATHER_EXTENDED_SUCCESS = "GET_WEATHER_EXTENDED_SUCCESS";
+export const GET_WEATHER_EXTENDED_ERROR = "GET_WEATHER_EXTENDED_ERROR";
 
 export interface GetWeatherAction {
-  type: typeof GET_WEATHER_START
-  payload: LocationQuery
+  type: typeof GET_WEATHER_START;
+  payload: LocationQuery;
+}
+
+export enum FILTER_TEMP_OPTIONS {
+  MAX = "MAX",
+  MIN = "MIN",
 }
 
 export interface GetWeatherExtendedAction {
-  type: typeof GET_WEATHER_EXTENDED_START
-  payload: LocationQuery
+  type: typeof GET_WEATHER_EXTENDED_START;
+  payload: LocationQuery;
 }
 
 interface GetWeatherExtendedSuccessAction {
-  type: typeof GET_WEATHER_EXTENDED_SUCCESS
-  payload: LocationWeatherData[]
+  type: typeof GET_WEATHER_EXTENDED_SUCCESS;
+  payload: LocationWeatherData[];
 }
 
 interface GetWeatherExtendedErrorAction {
-  type: typeof GET_WEATHER_EXTENDED_ERROR
-  payload: string
+  type: typeof GET_WEATHER_EXTENDED_ERROR;
+  payload: string;
+}
+
+export interface Coordinates {
+  lat: string;
+  lon: string;
+}
+export interface LocationDropDownOption {
+  value: Coordinates;
+  label: string;
+}
+
+export interface FilterDropDownOptions {
+  value: string;
+  label: string;
 }
 
 export interface LocationQuery {
-  lon: string
-  lat: string
+  lon: string;
+  lat: string;
 }
 
 interface GetWeatherSuccessAction {
-  type: typeof GET_WEATHER_SUCCESS
-  payload: LocationWeatherData[]
+  type: typeof GET_WEATHER_SUCCESS;
+  payload: LocationWeatherData[];
 }
 
 interface GetWeatherErrorAction {
-  type: typeof GET_WEATHER_ERROR
-  payload: string
+  type: typeof GET_WEATHER_ERROR;
+  payload: string;
 }
 
 export interface WeatherState {
-  currentLocationWeather: LocationWeatherData[]
-  currentLocationExtendedWeather: LocationWeatherData[]
-  error: string
+  currentLocationWeather: LocationWeatherData[];
+  currentLocationExtendedWeather: LocationWeatherData[];
+  error: string;
 }
 
 export interface LocationWeatherData {
@@ -100,4 +119,4 @@ export type WeatherActionTypes =
   | GetWeatherExtendedErrorAction
   | GetWeatherErrorAction
   | GetWeatherSuccessAction
-  | GetWeatherErrorAction
+  | GetWeatherErrorAction;

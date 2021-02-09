@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import SingleLocationWeather from "./SingleLocationWeather";
 import { RootState } from "../../redux";
 import { getWeatherByLocation } from "../../redux/weather/actions";
-import { LocationWeatherData } from "../../redux/weather/types";
-import { select } from "redux-saga/effects";
 
 export interface Coordinates {
   lat: string;
@@ -36,10 +34,10 @@ export const SingleLocationWeatherPage = (props: any) => {
   ];
 
   const onClickNext = () => {
-      props.history.push("/forcast")
-  }
+    props.history.push("/forcast");
+  };
 
-  if(!props.weather.currentLocationWeather[0]) return <></>
+  if (!props.weather.currentLocationWeather[0]) return <p>Loading...</p>;
   return (
     <SingleLocationWeather
       dropdownOptions={options}

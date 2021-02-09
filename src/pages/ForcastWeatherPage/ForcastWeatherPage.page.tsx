@@ -4,29 +4,29 @@ import { connect } from "react-redux";
 import ForcastWeather from "./ForcastWeatherPage";
 import { RootState } from "../../redux";
 import { getExtendedWeatherForcastByLocation } from "../../redux/weather/actions";
-import { select } from "redux-saga/effects";
-import { LocationWeatherData } from "../../redux/weather/types";
-
-export interface Coordinates {
-  lat: string;
-  lon: string;
-}
-export interface LocationDropDownOption {
-  value: Coordinates;
-  label: string;
-}
+import {
+  LocationWeatherData,
+  Coordinates,
+  FilterDropDownOptions,
+  LocationDropDownOption,
+  FILTER_TEMP_OPTIONS,
+} from "../../redux/weather/types";
 
 export const ForcastWeatherPage = (props: any) => {
   const [selectedLocation, setSelectedLocation] = useState<Coordinates>({
     lon: "-0.118092",
     lat: "51.509865",
   });
-
-  const [locationData, setLocationData] = useState<LocationWeatherData[]>([]);
-  const [filterValue, setFilterValue] = useState<string>("");
+  const [filteredLocationData, setFilteredLocationData] = useState<
+    LocationWeatherData[]
+  >([]);
+  const [
+    filterDropdownSelectedOption,
+    setFilterDropdownSelectedOption,
+  ] = useState<string>(FILTER_TEMP_OPTIONS.MAX);
 
   // In a real application i would expect these options to come from an api response
-  const options: LocationDropDownOption[] = [
+  const locationOptions: LocationDropDownOption[] = [
     { value: { lon: "-0.118092", lat: "51.509865" }, label: "London" },
     { value: { lon: "-73.935242", lat: "40.730610" }, label: "New York" },
     { value: { lon: "72.854118", lat: "19.228825" }, label: "Mumbai" },
@@ -34,367 +34,9 @@ export const ForcastWeatherPage = (props: any) => {
     { value: { lon: "139.839478", lat: "151.209900" }, label: "Tokyo" },
   ];
 
-  const mockData = [
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
-    {
-      moonrise_ts: 1612688116,
-      wind_cdir: "WSW",
-      rh: 76,
-      pres: 939.587,
-      high_temp: 4,
-      sunset_ts: 1612737890,
-      ozone: 347.227,
-      moon_phase: 0.102396,
-      wind_gust_spd: 10.6953,
-      snow_depth: 55.3,
-      clouds: 52,
-      ts: 1612674060,
-      sunrise_ts: 1612699982,
-      app_min_temp: -12.9,
-      wind_spd: 3.01714,
-      pop: 100,
-      wind_cdir_full: "west-southwest",
-      slp: 1016.07,
-      moon_phase_lunation: 0.87,
-      valid_date: "2021-02-07",
-      app_max_temp: 0,
-      vis: 15.141,
-      dewpt: -4.9,
-      snow: 164.25,
-      uv: 2.6813,
-      weather: {},
-      wind_dir: 249,
-      max_dhi: null,
-      clouds_hi: 26,
-      precip: 13.8125,
-      low_temp: -7.1,
-      max_temp: 4,
-      moonset_ts: 1612726057,
-      datetime: "2021-02-07",
-      temp: -1,
-      min_temp: -6.5,
-      clouds_mid: 47,
-      clouds_low: 50,
-    },
+  const filterOptions: FilterDropDownOptions[] = [
+    { value: FILTER_TEMP_OPTIONS.MAX, label: "Max Temp" },
+    { value: FILTER_TEMP_OPTIONS.MIN, label: "Min Temp" },
   ];
 
   useEffect(() => {
@@ -402,23 +44,37 @@ export const ForcastWeatherPage = (props: any) => {
   }, [selectedLocation]);
 
   useEffect(() => {
-    setLocationData(props.weather.currentLocationExtendedWeather);
+    setFilteredLocationData(props.weather.currentLocationExtendedWeather);
   }, [props.weather.currentLocationExtendedWeather]);
 
   const onChangeFilter = (filterValue: string) => {
-    setFilterValue(filterValue);
-    const filteredWeatherData = locationData.filter(
-      (data) => data.temp <= parseFloat(filterValue)
-    );
-    setLocationData(filteredWeatherData);
+    if (!filterValue) {
+      setFilteredLocationData(props.weather.currentLocationExtendedWeather);
+      return;
+    } else {
+      if (filterDropdownSelectedOption === FILTER_TEMP_OPTIONS.MAX) {
+        const filteredWeatherData = props.weather.currentLocationExtendedWeather.filter(
+          (data: LocationWeatherData) => data.temp >= parseFloat(filterValue)
+        );
+        setFilteredLocationData(filteredWeatherData);
+      }
+      if (filterDropdownSelectedOption === FILTER_TEMP_OPTIONS.MIN) {
+        const filteredWeatherData = props.weather.currentLocationExtendedWeather.filter(
+          (data: LocationWeatherData) => data.temp <= parseFloat(filterValue)
+        );
+        setFilteredLocationData(filteredWeatherData);
+      }
+    }
   };
 
   return (
     <ForcastWeather
-      dropdownOptions={options}
+      locationOptions={locationOptions}
+      filterOptions={filterOptions}
       onChangeDropdown={setSelectedLocation}
-      extendedWeatherForcast={mockData}
-      setFilterValue={setFilterValue}
+      onChangeFilter={onChangeFilter}
+      onChangeFilterDropdown={setFilterDropdownSelectedOption}
+      extendedWeatherForcast={filteredLocationData}
     />
   );
 };

@@ -1,37 +1,52 @@
 import React from "react";
 import Select from "react-select";
 import WeatherCard from "../../components/WeatherCard/WeatherCard";
-import { LocationDropDownOption, Coordinates } from "./ForcastWeatherPage.page";
-import { LocationWeatherData } from "../../redux/weather/types";
+import {
+  LocationWeatherData,
+  FilterDropDownOptions,
+  Coordinates,
+  LocationDropDownOption,
+} from "../../redux/weather/types";
 
 import "./styles/forcast-weather-page.css";
 
 interface PageProps {
-  dropdownOptions: LocationDropDownOption[];
+  locationOptions: LocationDropDownOption[];
+  filterOptions: FilterDropDownOptions[];
   onChangeDropdown: (value: Coordinates) => void;
-  setFilterValue: (filterValue: string) => void
+  onChangeFilterDropdown: (value: string) => void;
+  onChangeFilter: (filterValue: string) => void;
   extendedWeatherForcast: LocationWeatherData[];
 }
 
 function ForcastWeather({
-  dropdownOptions,
+  locationOptions,
+  filterOptions,
   onChangeDropdown,
+  onChangeFilterDropdown,
   extendedWeatherForcast,
-  setFilterValue
+  onChangeFilter,
 }: PageProps) {
   return (
     <div>
       <div className="forcast-weather-filters">
         <Select
           onChange={(selection) => onChangeDropdown(selection!.value)}
-          options={dropdownOptions}
+          options={locationOptions}
           className="forcast-weather-dropdown"
+          placeholder="Select location"
+        />
+        <Select
+          onChange={(selection) => onChangeFilterDropdown(selection!.value)}
+          options={filterOptions}
+          className="filter-dropdown"
+          placeholder="Select Filter By Temp"
         />
         <input
           placeholder="filter by temp"
           className="forcast-weather-search"
           type="number"
-          onChange={e => setFilterValue(e.target.value)}
+          onChange={(e) => onChangeFilter(e.target.value)}
         />
       </div>
       <div className="forcast-weather-carousel">

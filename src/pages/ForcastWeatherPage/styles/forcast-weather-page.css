@@ -1,24 +1,49 @@
 .forcast-weather-carousel {
-    display: flex; 
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-    mask-image: linear-gradient(to right, black 90%, transparent 100%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  scroll-behavior: smooth;
+  mask-image: linear-gradient(to right, black 90%, transparent 100%);
 }
 
 .forcast-weather-filters {
-    display: flex;
-    width: 100vw;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  width: 100vw;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .forcast-weather-dropdown {
-    width: 30%;
+  flex-basis: 30%;
+}
+
+.filter-dropdown {
+  flex-basis: 30%;
 }
 
 .forcast-weather-search {
-    width: 30%;
-    border-radius: 16px;
-    padding: 12px;
-    border: 1px solid lightgray;
+  width: 30%;
+  flex-basis: 30%;
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid lightgray;
+}
+
+@media (min-width: 375px) and (max-width: 812px) {
+  .forcast-weather-carousel {
+    overflow-x: scroll;
+    flex-wrap: nowrap;
+    justify-content: normal;
+    margin: auto;
+    mask-image: none;
+  }
+  .forcast-weather-filters {
+    flex-direction: column;
+  }
+  .forcast-weather-dropdown,
+  .filter-dropdown,
+  .forcast-weather-search {
+    width: 70%;
+    margin: 10px;
+  }
 }
